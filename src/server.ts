@@ -1,8 +1,8 @@
-import express from "express";
+import { app } from "./app.js";
+import { config } from "./config/env.js";
 
-const app = express();
-const PORT = 1882;
-
-app.listen(PORT, () => {
-  console.log(`Server ${PORT} portunda çalışıyor`);
-});
+for (const host of config.hosts) {
+  app.listen(config.port, host, () => {
+    console.log(`[${config.appEnv}] Server dinlemede: http://${host}:${config.port}`);
+  });
+}
