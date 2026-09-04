@@ -17,14 +17,17 @@ const port = Number(requireEnv("PORT"));
 if (Number.isNaN(port)) {
   throw new Error("PORT değeri sayı olmalıdır");
 }
-
+const mongoUri = requireEnv("MONGODB_URI");
+const mongoDbName = requireEnv("MONGODB_DB_NAME");
 const hosts =
   appEnv === "production"
     ? ["127.0.0.1", requireEnv("DEVICE_IP")]
     : [requireEnv("BIND_HOST")];
 
 export const config = {
-  appEnv,
+ appEnv,
   port,
   hosts,
+  mongoUri,
+  mongoDbName,
 };
