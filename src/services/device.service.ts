@@ -2,6 +2,7 @@ import { MongoServerError, type Collection, type Filter } from "mongodb";
 import { getDb } from "../config/database.js";
 import { generateDeviceId } from "../utils/id.js";
 import { ConflictError, NotFoundError } from "../utils/errors.js";
+import { flatten } from "../utils/flatten.js";
 import {
   toDevice,
   type CreateDeviceInput,
@@ -9,6 +10,7 @@ import {
   type DeviceDocument,
   type DeviceType,
   type UpdateDeviceInput,
+  type PatchDeviceInput,
 } from "../models/device.js";
 
 function devicesCollection(): Collection<DeviceDocument> {
@@ -98,4 +100,40 @@ export async function replaceDevice(
   }
 
   return toDevice({ _id: id, ...replacement });
+}
+export async function updateDevice(
+  id: string,
+  input: PatchDeviceInput
+): Promise<Device> {
+  const safeInput = { ...input };
+  delete safeInput["id"];
+  delete safeInput["_id"];
+  delete safeInput["createdAt"];
+  delete safeInput["updatedAt"];
+
+  const updates = flatten(safeInput);
+  updates["updatedAt"] = new Date();
+
+  let updated: DeviceDocument | null;
+
+  try {
+    updated = await devicesCollection().findOneAndUpdate(
+      { _id: id },
+      { $set: updates },
+      { returnDocument: "after" }
+    );
+  } catch (error) {
+    if (error instanceof MongoServerError && error.code === 11000) {
+      throw new ConflictError(
+        "Bu deviceCode veya serialNumber başka bir cihazda kayıtlı"
+      );
+    }
+    throw error;
+  }
+
+  if (updated === null) {
+    throw new NotFoundError(`Cihaz bulunamadı: ${id}`);
+  }
+
+  return toDevice(updated);
 }

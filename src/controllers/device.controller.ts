@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { DEVICE_TYPES, type CreateDeviceInput, type DeviceType, type UpdateDeviceInput } from "../models/device.js";
+import { DEVICE_TYPES, type CreateDeviceInput, type DeviceType, type UpdateDeviceInput, type PatchDeviceInput } from "../models/device.js";
 import type { DeviceFilters } from "../services/device.service.js";
 import { ValidationError } from "../utils/errors.js";
 import * as deviceService from "../services/device.service.js";
@@ -56,6 +56,23 @@ export async function replaceDevice(req: Request, res: Response): Promise<void> 
   const input = req.body as UpdateDeviceInput;
 
   const device = await deviceService.replaceDevice(id, input);
+
+  res.status(200).json(device);
+}
+export async function updateDevice(req: Request, res: Response): Promise<void> {
+  const id = req.params.id;
+
+  if (id === undefined) {
+    throw new ValidationError("id parametresi eksik");
+  }
+
+  const input = req.body as PatchDeviceInput;
+
+  if (Object.keys(input).length === 0) {
+    throw new ValidationError("Güncellenecek en az bir alan gönderilmelidir");
+  }
+
+  const device = await deviceService.updateDevice(id, input);
 
   res.status(200).json(device);
 }
