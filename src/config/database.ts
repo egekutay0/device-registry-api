@@ -12,6 +12,8 @@ export async function connectToDatabase(): Promise<Db> {
   await client.db(config.mongoDbName).command({ ping: 1 });
 
   db = client.db(config.mongoDbName);
+  await db.collection("devices").createIndex({ deviceCode: 1 }, { unique: true });
+  await db.collection("devices").createIndex({ serialNumber: 1 }, { unique: true });
   console.log(`MongoDB bağlantısı kuruldu: ${config.mongoDbName}`);
 
   return db;
