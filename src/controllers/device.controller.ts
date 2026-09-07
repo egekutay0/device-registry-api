@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { DEVICE_TYPES, type CreateDeviceInput, type DeviceType } from "../models/device.js";
+import { DEVICE_TYPES, type CreateDeviceInput, type DeviceType, type UpdateDeviceInput } from "../models/device.js";
 import type { DeviceFilters } from "../services/device.service.js";
 import { ValidationError } from "../utils/errors.js";
 import * as deviceService from "../services/device.service.js";
@@ -34,4 +34,28 @@ export async function listDevices(req: Request, res: Response): Promise<void> {
   const devices = await deviceService.listDevices(filters);
 
   res.status(200).json(devices);
+}
+export async function getDeviceById(req: Request, res: Response): Promise<void> {
+  const id = req.params.id;
+
+  if (typeof id !== "string") {
+    throw new ValidationError("id parametresi eksik");
+  }
+
+  const device = await deviceService.getDeviceById(id);
+
+  res.status(200).json(device);
+}
+export async function replaceDevice(req: Request, res: Response): Promise<void> {
+  const id = req.params.id;
+
+  if (typeof id !== "string") {
+    throw new ValidationError("id parametresi eksik");
+  }
+
+  const input = req.body as UpdateDeviceInput;
+
+  const device = await deviceService.replaceDevice(id, input);
+
+  res.status(200).json(device);
 }

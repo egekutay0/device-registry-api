@@ -72,3 +72,4 @@ export function toDevice(document: DeviceDocument): Device {
   return { id: _id, ...rest };
 }
 export type CreateDeviceInput = Omit<Device, "id" | "createdAt" | "updatedAt">;
+export type UpdateDeviceInput = CreateDeviceInput;
