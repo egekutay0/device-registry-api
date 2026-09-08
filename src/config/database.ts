@@ -25,3 +25,7 @@ export function getDb(): Db {
   }
   return db;
 }
+export async function closeDatabase(): Promise<void> {
+  await client.close();
+  db = null;
+}

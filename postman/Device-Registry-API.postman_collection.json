@@ -1,0 +1,541 @@
+{
+  "info": {
+    "_postman_id": "1a476753-98ea-4ca9-bdf1-46abed16721a",
+    "name": "Device Registry API",
+    "description": "4TheWall Device Registry API - LAB 1 Postman Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/health",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "health"
+          ]
+        },
+        "description": "Servisin ayakta oldugunu dogrular."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200 donuyor\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"status alani ok\", function () {",
+              "  pm.expect(pm.response.json().status).to.eql(\"ok\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Create Device",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices"
+          ]
+        },
+        "description": "Yeni cihaz olusturur ve donen id degerini DEVICE_ID environment degiskenine yazar.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deviceCode\": \"FTW-TEST-{{TEST_RUN}}\",\n  \"name\": \"Postman Test Device\",\n  \"type\": \"controller\",\n  \"manufacturer\": \"4TheWall\",\n  \"model\": \"Wall Controller\",\n  \"serialNumber\": \"SN-TEST-{{TEST_RUN}}\",\n  \"network\": {\n    \"hostname\": \"postman-test-01\",\n    \"ipAddress\": \"192.168.50.10\",\n    \"macAddress\": \"00:11:22:33:55:01\",\n    \"managementPort\": 8080,\n    \"dhcp\": false\n  },\n  \"location\": {\n    \"site\": \"Ankara Office\",\n    \"room\": \"Test Room\",\n    \"rack\": \"R09\",\n    \"rackUnit\": 3\n  },\n  \"display\": {\n    \"width\": 1920,\n    \"height\": 1080,\n    \"refreshRate\": 60\n  },\n  \"capabilities\": {\n    \"inputs\": [\n      \"HDMI\",\n      \"RTSP\"\n    ],\n    \"outputs\": [\n      \"HDMI\"\n    ],\n    \"codecs\": [\n      \"H264\"\n    ],\n    \"maxResolution\": \"1920x1080\"\n  },\n  \"status\": {\n    \"online\": true,\n    \"lastSeenAt\": \"2026-09-01T10:00:00.000Z\"\n  },\n  \"tags\": [\n    \"postman\",\n    \"test\"\n  ],\n  \"enabled\": true,\n  \"notes\": \"Postman collection tarafindan olusturuldu\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Her calistirmada benzersiz deviceCode/serialNumber uretmek icin",
+              "pm.environment.set(\"TEST_RUN\", Date.now());"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"201 Created\", function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// Olusan cihazin id degerini environment degiskenine aktar",
+              "var device = pm.response.json();",
+              "pm.environment.set(\"DEVICE_ID\", device.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Create Duplicate Device",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices"
+          ]
+        },
+        "description": "02 ile ayni deviceCode/serialNumber gonderir, benzersizlik ihlali beklenir.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deviceCode\": \"FTW-TEST-{{TEST_RUN}}\",\n  \"name\": \"Postman Test Device\",\n  \"type\": \"controller\",\n  \"manufacturer\": \"4TheWall\",\n  \"model\": \"Wall Controller\",\n  \"serialNumber\": \"SN-TEST-{{TEST_RUN}}\",\n  \"network\": {\n    \"hostname\": \"postman-test-01\",\n    \"ipAddress\": \"192.168.50.10\",\n    \"macAddress\": \"00:11:22:33:55:01\",\n    \"managementPort\": 8080,\n    \"dhcp\": false\n  },\n  \"location\": {\n    \"site\": \"Ankara Office\",\n    \"room\": \"Test Room\",\n    \"rack\": \"R09\",\n    \"rackUnit\": 3\n  },\n  \"display\": {\n    \"width\": 1920,\n    \"height\": 1080,\n    \"refreshRate\": 60\n  },\n  \"capabilities\": {\n    \"inputs\": [\n      \"HDMI\",\n      \"RTSP\"\n    ],\n    \"outputs\": [\n      \"HDMI\"\n    ],\n    \"codecs\": [\n      \"H264\"\n    ],\n    \"maxResolution\": \"1920x1080\"\n  },\n  \"status\": {\n    \"online\": true,\n    \"lastSeenAt\": \"2026-09-01T10:00:00.000Z\"\n  },\n  \"tags\": [\n    \"postman\",\n    \"test\"\n  ],\n  \"enabled\": true,\n  \"notes\": \"Postman collection tarafindan olusturuldu\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"409 Conflict\", function () {",
+              "  pm.response.to.have.status(409);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Get Devices",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices"
+          ]
+        },
+        "description": "Tum cihazlari listeler."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200 donuyor\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"dizi donuyor\", function () {",
+              "  pm.expect(pm.response.json()).to.be.an(\"array\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Filter Devices",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices?type=encoder&online=true",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "encoder"
+            },
+            {
+              "key": "online",
+              "value": "true"
+            }
+          ]
+        },
+        "description": "Iki filtreyi ayni anda kullanir: type ve online."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200 donuyor\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Get Device By ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices/{{DEVICE_ID}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "{{DEVICE_ID}}"
+          ]
+        },
+        "description": "02'de kaydedilen DEVICE_ID ile tek cihaz getirir."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200 donuyor\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"dogru cihaz geldi\", function () {",
+              "  pm.expect(pm.response.json().id).to.eql(pm.environment.get(\"DEVICE_ID\"));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Get Missing Device",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices/boyle-bir-id-yok",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "boyle-bir-id-yok"
+          ]
+        },
+        "description": "Olmayan bir id ile 404 beklenir."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"404 Not Found\", function () {",
+              "  pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Full Update Device",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices/{{DEVICE_ID}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "{{DEVICE_ID}}"
+          ]
+        },
+        "description": "Cihazin tum guncellenebilir alanlarini degistirir.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deviceCode\": \"FTW-TEST-{{TEST_RUN}}\",\n  \"name\": \"Postman Test Device - PUT ile guncellendi\",\n  \"type\": \"controller\",\n  \"manufacturer\": \"4TheWall\",\n  \"model\": \"Wall Controller\",\n  \"serialNumber\": \"SN-TEST-{{TEST_RUN}}\",\n  \"network\": {\n    \"hostname\": \"postman-test-01\",\n    \"ipAddress\": \"192.168.50.10\",\n    \"macAddress\": \"00:11:22:33:55:01\",\n    \"managementPort\": 8080,\n    \"dhcp\": false\n  },\n  \"location\": {\n    \"site\": \"Ankara Office\",\n    \"room\": \"Test Room\",\n    \"rack\": \"R09\",\n    \"rackUnit\": 3\n  },\n  \"display\": {\n    \"width\": 1920,\n    \"height\": 1080,\n    \"refreshRate\": 60\n  },\n  \"capabilities\": {\n    \"inputs\": [\n      \"HDMI\",\n      \"RTSP\"\n    ],\n    \"outputs\": [\n      \"HDMI\"\n    ],\n    \"codecs\": [\n      \"H264\"\n    ],\n    \"maxResolution\": \"1920x1080\"\n  },\n  \"status\": {\n    \"online\": true,\n    \"lastSeenAt\": \"2026-09-01T10:00:00.000Z\"\n  },\n  \"tags\": [\n    \"postman\",\n    \"test\"\n  ],\n  \"enabled\": true,\n  \"notes\": \"Postman collection tarafindan olusturuldu\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200 donuyor\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"name guncellendi\", function () {",
+              "  pm.expect(pm.response.json().name).to.include(\"PUT ile guncellendi\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Partial Update Device",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices/{{DEVICE_ID}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "{{DEVICE_ID}}"
+          ]
+        },
+        "description": "Sadece enabled ve status.online alanlarini degistirir; status.lastSeenAt korunmalidir.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"enabled\": false,\n  \"status\": {\n    \"online\": false\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"200 donuyor\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"sadece gonderilen alanlar degisti\", function () {",
+              "  var device = pm.response.json();",
+              "  pm.expect(device.enabled).to.eql(false);",
+              "  pm.expect(device.status.online).to.eql(false);",
+              "  pm.expect(device.status.lastSeenAt).to.not.eql(undefined);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - Delete Device",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices/{{DEVICE_ID}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "{{DEVICE_ID}}"
+          ]
+        },
+        "description": "02'de olusturulan cihazi siler."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"204 No Content\", function () {",
+              "  pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 - Bulk Create Devices",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices/bulk",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "bulk"
+          ]
+        },
+        "description": "Birden fazla cihazi tek istekte olusturur.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"devices\": [\n    {\n      \"deviceCode\": \"FTW-BULK-{{TEST_RUN}}-1\",\n      \"name\": \"Bulk Device 1\",\n      \"type\": \"encoder\",\n      \"manufacturer\": \"4TheWall\",\n      \"model\": \"Wall Controller\",\n      \"serialNumber\": \"SN-BULK-{{TEST_RUN}}-1\",\n      \"network\": {\n        \"hostname\": \"postman-test-01\",\n        \"ipAddress\": \"192.168.50.10\",\n        \"macAddress\": \"00:11:22:33:55:01\",\n        \"managementPort\": 8080,\n        \"dhcp\": false\n      },\n      \"location\": {\n        \"site\": \"Ankara Office\",\n        \"room\": \"Test Room\",\n        \"rack\": \"R09\",\n        \"rackUnit\": 3\n      },\n      \"display\": {\n        \"width\": 1920,\n        \"height\": 1080,\n        \"refreshRate\": 60\n      },\n      \"capabilities\": {\n        \"inputs\": [\n          \"HDMI\",\n          \"RTSP\"\n        ],\n        \"outputs\": [\n          \"HDMI\"\n        ],\n        \"codecs\": [\n          \"H264\"\n        ],\n        \"maxResolution\": \"1920x1080\"\n      },\n      \"status\": {\n        \"online\": true,\n        \"lastSeenAt\": \"2026-09-01T10:00:00.000Z\"\n      },\n      \"tags\": [\n        \"postman\",\n        \"test\"\n      ],\n      \"enabled\": true,\n      \"notes\": \"Postman collection tarafindan olusturuldu\"\n    },\n    {\n      \"deviceCode\": \"FTW-BULK-{{TEST_RUN}}-2\",\n      \"name\": \"Bulk Device 2\",\n      \"type\": \"decoder\",\n      \"manufacturer\": \"4TheWall\",\n      \"model\": \"Wall Controller\",\n      \"serialNumber\": \"SN-BULK-{{TEST_RUN}}-2\",\n      \"network\": {\n        \"hostname\": \"postman-test-01\",\n        \"ipAddress\": \"192.168.50.10\",\n        \"macAddress\": \"00:11:22:33:55:01\",\n        \"managementPort\": 8080,\n        \"dhcp\": false\n      },\n      \"location\": {\n        \"site\": \"Ankara Office\",\n        \"room\": \"Test Room\",\n        \"rack\": \"R09\",\n        \"rackUnit\": 3\n      },\n      \"display\": {\n        \"width\": 1920,\n        \"height\": 1080,\n        \"refreshRate\": 60\n      },\n      \"capabilities\": {\n        \"inputs\": [\n          \"HDMI\",\n          \"RTSP\"\n        ],\n        \"outputs\": [\n          \"HDMI\"\n        ],\n        \"codecs\": [\n          \"H264\"\n        ],\n        \"maxResolution\": \"1920x1080\"\n      },\n      \"status\": {\n        \"online\": true,\n        \"lastSeenAt\": \"2026-09-01T10:00:00.000Z\"\n      },\n      \"tags\": [\n        \"postman\",\n        \"test\"\n      ],\n      \"enabled\": true,\n      \"notes\": \"Postman collection tarafindan olusturuldu\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"201 Created\", function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"iki cihaz olustu\", function () {",
+              "  pm.expect(pm.response.json().count).to.eql(2);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 - Invalid Device",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/devices",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices"
+          ]
+        },
+        "description": "Bos name alani ile gonderir, validation hatasi beklenir.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deviceCode\": \"FTW-INVALID-1\",\n  \"name\": \"\",\n  \"type\": \"controller\",\n  \"manufacturer\": \"4TheWall\",\n  \"model\": \"Wall Controller\",\n  \"serialNumber\": \"SN-INVALID-1\",\n  \"network\": {\n    \"hostname\": \"postman-test-01\",\n    \"ipAddress\": \"192.168.50.10\",\n    \"macAddress\": \"00:11:22:33:55:01\",\n    \"managementPort\": 8080,\n    \"dhcp\": false\n  },\n  \"location\": {\n    \"site\": \"Ankara Office\",\n    \"room\": \"Test Room\",\n    \"rack\": \"R09\",\n    \"rackUnit\": 3\n  },\n  \"display\": {\n    \"width\": 1920,\n    \"height\": 1080,\n    \"refreshRate\": 60\n  },\n  \"capabilities\": {\n    \"inputs\": [\n      \"HDMI\",\n      \"RTSP\"\n    ],\n    \"outputs\": [\n      \"HDMI\"\n    ],\n    \"codecs\": [\n      \"H264\"\n    ],\n    \"maxResolution\": \"1920x1080\"\n  },\n  \"status\": {\n    \"online\": true,\n    \"lastSeenAt\": \"2026-09-01T10:00:00.000Z\"\n  },\n  \"tags\": [\n    \"postman\",\n    \"test\"\n  ],\n  \"enabled\": true,\n  \"notes\": \"Postman collection tarafindan olusturuldu\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"400 Bad Request\", function () {",
+              "  pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
