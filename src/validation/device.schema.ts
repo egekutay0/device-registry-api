@@ -72,3 +72,8 @@ export const patchDeviceSchema = z.object({
   enabled: z.boolean().optional(),
   notes: z.string().optional(),
 });
+export const bulkCreateDeviceSchema = z.object({
+  devices: z
+    .array(createDeviceSchema)
+    .min(1, "En az bir cihaz gönderilmelidir"),
+});

@@ -1,0 +1,565 @@
+{
+  "devices": [
+    {
+      "deviceCode": "FTW-CTRL-101",
+      "name": "Ankara Control Room Controller",
+      "type": "controller",
+      "manufacturer": "4TheWall",
+      "model": "WallCtrl-Pro",
+      "serialNumber": "SN-100001",
+      "network": {
+        "hostname": "wall-ctrl-101",
+        "ipAddress": "192.168.10.11",
+        "macAddress": "00:11:22:33:44:01",
+        "managementPort": 8080,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Control Room",
+        "rack": "R01",
+        "rackUnit": 12
+      },
+      "display": {
+        "width": 3840,
+        "height": 2160,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "HDMI",
+          "RTSP"
+        ],
+        "outputs": [
+          "HDMI",
+          "DisplayPort"
+        ],
+        "codecs": [
+          "H264",
+          "H265"
+        ],
+        "maxResolution": "3840x2160"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T08:00:00.000Z"
+      },
+      "tags": [
+        "control-room",
+        "primary"
+      ],
+      "enabled": true,
+      "notes": "Ana kontrol odasi controller"
+    },
+    {
+      "deviceCode": "FTW-ENC-102",
+      "name": "Studio Encoder A",
+      "type": "encoder",
+      "manufacturer": "4TheWall",
+      "model": "Enc-4K",
+      "serialNumber": "SN-100002",
+      "network": {
+        "hostname": "enc-102",
+        "ipAddress": "192.168.10.12",
+        "macAddress": "00:11:22:33:44:02",
+        "managementPort": 8081,
+        "dhcp": true
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Studio",
+        "rack": "R02",
+        "rackUnit": 4
+      },
+      "display": {
+        "width": 1920,
+        "height": 1080,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "HDMI",
+          "SDI"
+        ],
+        "outputs": [
+          "RTSP"
+        ],
+        "codecs": [
+          "H264"
+        ],
+        "maxResolution": "1920x1080"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T08:05:00.000Z"
+      },
+      "tags": [
+        "studio",
+        "encoder"
+      ],
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "deviceCode": "FTW-ENC-103",
+      "name": "Studio Encoder B",
+      "type": "encoder",
+      "manufacturer": "4TheWall",
+      "model": "Enc-4K",
+      "serialNumber": "SN-100003",
+      "network": {
+        "hostname": "enc-103",
+        "ipAddress": "192.168.10.13",
+        "macAddress": "00:11:22:33:44:03",
+        "managementPort": 8082,
+        "dhcp": true
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Studio",
+        "rack": "R02",
+        "rackUnit": 5
+      },
+      "display": {
+        "width": 1920,
+        "height": 1080,
+        "refreshRate": 50
+      },
+      "capabilities": {
+        "inputs": [
+          "HDMI",
+          "SDI"
+        ],
+        "outputs": [
+          "RTSP"
+        ],
+        "codecs": [
+          "H264",
+          "H265"
+        ],
+        "maxResolution": "1920x1080"
+      },
+      "status": {
+        "online": false,
+        "lastSeenAt": "2026-08-28T17:40:00.000Z"
+      },
+      "tags": [
+        "studio",
+        "encoder",
+        "backup"
+      ],
+      "enabled": false,
+      "notes": "Bakimda"
+    },
+    {
+      "deviceCode": "FTW-DEC-104",
+      "name": "Lobby Decoder",
+      "type": "decoder",
+      "manufacturer": "4TheWall",
+      "model": "Dec-HD",
+      "serialNumber": "SN-100004",
+      "network": {
+        "hostname": "dec-104",
+        "ipAddress": "192.168.10.14",
+        "macAddress": "00:11:22:33:44:04",
+        "managementPort": 8083,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Lobby",
+        "rack": "R03",
+        "rackUnit": 2
+      },
+      "display": {
+        "width": 1920,
+        "height": 1080,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "RTSP"
+        ],
+        "outputs": [
+          "HDMI"
+        ],
+        "codecs": [
+          "H264"
+        ],
+        "maxResolution": "1920x1080"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T07:55:00.000Z"
+      },
+      "tags": [
+        "lobby"
+      ],
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "deviceCode": "FTW-DEC-105",
+      "name": "Meeting Room Decoder",
+      "type": "decoder",
+      "manufacturer": "4TheWall",
+      "model": "Dec-4K",
+      "serialNumber": "SN-100005",
+      "network": {
+        "hostname": "dec-105",
+        "ipAddress": "192.168.10.15",
+        "macAddress": "00:11:22:33:44:05",
+        "managementPort": 8084,
+        "dhcp": true
+      },
+      "location": {
+        "site": "Istanbul Office",
+        "room": "Meeting Room 1",
+        "rack": "R01",
+        "rackUnit": 7
+      },
+      "display": {
+        "width": 3840,
+        "height": 2160,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "RTSP",
+          "SRT"
+        ],
+        "outputs": [
+          "HDMI"
+        ],
+        "codecs": [
+          "H264",
+          "H265"
+        ],
+        "maxResolution": "3840x2160"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T09:10:00.000Z"
+      },
+      "tags": [
+        "meeting",
+        "4k"
+      ],
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "deviceCode": "FTW-DSP-106",
+      "name": "Video Wall Panel 1",
+      "type": "display",
+      "manufacturer": "Samsung",
+      "model": "VM55B",
+      "serialNumber": "SN-100006",
+      "network": {
+        "hostname": "dsp-106",
+        "ipAddress": "192.168.10.16",
+        "macAddress": "00:11:22:33:44:06",
+        "managementPort": 5000,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Control Room",
+        "rack": "R01",
+        "rackUnit": 1
+      },
+      "display": {
+        "width": 1920,
+        "height": 1080,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "HDMI",
+          "DisplayPort"
+        ],
+        "outputs": [],
+        "codecs": [],
+        "maxResolution": "1920x1080"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T08:00:00.000Z"
+      },
+      "tags": [
+        "video-wall",
+        "panel"
+      ],
+      "enabled": true,
+      "notes": "Video wall sol ust panel"
+    },
+    {
+      "deviceCode": "FTW-DSP-107",
+      "name": "Video Wall Panel 2",
+      "type": "display",
+      "manufacturer": "Samsung",
+      "model": "VM55B",
+      "serialNumber": "SN-100007",
+      "network": {
+        "hostname": "dsp-107",
+        "ipAddress": "192.168.10.17",
+        "macAddress": "00:11:22:33:44:07",
+        "managementPort": 5000,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Control Room",
+        "rack": "R01",
+        "rackUnit": 2
+      },
+      "display": {
+        "width": 1920,
+        "height": 1080,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "HDMI",
+          "DisplayPort"
+        ],
+        "outputs": [],
+        "codecs": [],
+        "maxResolution": "1920x1080"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T08:00:00.000Z"
+      },
+      "tags": [
+        "video-wall",
+        "panel"
+      ],
+      "enabled": true,
+      "notes": "Video wall sag ust panel"
+    },
+    {
+      "deviceCode": "FTW-KVM-108",
+      "name": "Operator KVM Switch",
+      "type": "kvm",
+      "manufacturer": "Aten",
+      "model": "CS1944",
+      "serialNumber": "SN-100008",
+      "network": {
+        "hostname": "kvm-108",
+        "ipAddress": "192.168.10.18",
+        "macAddress": "00:11:22:33:44:08",
+        "managementPort": 22,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Control Room",
+        "rack": "R04",
+        "rackUnit": 9
+      },
+      "display": {
+        "width": 2560,
+        "height": 1440,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "HDMI",
+          "USB"
+        ],
+        "outputs": [
+          "HDMI",
+          "USB"
+        ],
+        "codecs": [],
+        "maxResolution": "2560x1440"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T08:20:00.000Z"
+      },
+      "tags": [
+        "operator",
+        "kvm"
+      ],
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "deviceCode": "FTW-NET-109",
+      "name": "Core Switch",
+      "type": "network",
+      "manufacturer": "Cisco",
+      "model": "C9300-24T",
+      "serialNumber": "SN-100009",
+      "network": {
+        "hostname": "sw-109",
+        "ipAddress": "192.168.10.2",
+        "macAddress": "00:11:22:33:44:09",
+        "managementPort": 443,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Server Room",
+        "rack": "R05",
+        "rackUnit": 20
+      },
+      "display": {
+        "width": 1,
+        "height": 1,
+        "refreshRate": 1
+      },
+      "capabilities": {
+        "inputs": [],
+        "outputs": [],
+        "codecs": [],
+        "maxResolution": "N/A"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T09:00:00.000Z"
+      },
+      "tags": [
+        "network",
+        "core"
+      ],
+      "enabled": true,
+      "notes": "Ana omurga switch"
+    },
+    {
+      "deviceCode": "FTW-NET-110",
+      "name": "Access Switch Floor 2",
+      "type": "network",
+      "manufacturer": "Cisco",
+      "model": "C9200-24P",
+      "serialNumber": "SN-100010",
+      "network": {
+        "hostname": "sw-110",
+        "ipAddress": "192.168.10.3",
+        "macAddress": "00:11:22:33:44:0A",
+        "managementPort": 443,
+        "dhcp": true
+      },
+      "location": {
+        "site": "Istanbul Office",
+        "room": "Server Room",
+        "rack": "R02",
+        "rackUnit": 18
+      },
+      "display": {
+        "width": 1,
+        "height": 1,
+        "refreshRate": 1
+      },
+      "capabilities": {
+        "inputs": [],
+        "outputs": [],
+        "codecs": [],
+        "maxResolution": "N/A"
+      },
+      "status": {
+        "online": false,
+        "lastSeenAt": "2026-08-30T22:15:00.000Z"
+      },
+      "tags": [
+        "network",
+        "access"
+      ],
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "deviceCode": "FTW-OTH-111",
+      "name": "Rack UPS",
+      "type": "other",
+      "manufacturer": "APC",
+      "model": "SRT3000",
+      "serialNumber": "SN-100011",
+      "network": {
+        "hostname": "ups-111",
+        "ipAddress": "192.168.10.20",
+        "macAddress": "00:11:22:33:44:0B",
+        "managementPort": 161,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Ankara Office",
+        "room": "Server Room",
+        "rack": "R05",
+        "rackUnit": 1
+      },
+      "display": {
+        "width": 1,
+        "height": 1,
+        "refreshRate": 1
+      },
+      "capabilities": {
+        "inputs": [],
+        "outputs": [],
+        "codecs": [],
+        "maxResolution": "N/A"
+      },
+      "status": {
+        "online": true,
+        "lastSeenAt": "2026-09-01T09:30:00.000Z"
+      },
+      "tags": [
+        "power",
+        "ups"
+      ],
+      "enabled": true,
+      "notes": "Kesintisiz guc kaynagi"
+    },
+    {
+      "deviceCode": "FTW-CTRL-112",
+      "name": "Istanbul Control Room Controller",
+      "type": "controller",
+      "manufacturer": "4TheWall",
+      "model": "WallCtrl-Lite",
+      "serialNumber": "SN-100012",
+      "network": {
+        "hostname": "wall-ctrl-112",
+        "ipAddress": "192.168.20.11",
+        "macAddress": "00:11:22:33:44:0C",
+        "managementPort": 8080,
+        "dhcp": false
+      },
+      "location": {
+        "site": "Istanbul Office",
+        "room": "Control Room",
+        "rack": "R01",
+        "rackUnit": 10
+      },
+      "display": {
+        "width": 2560,
+        "height": 1440,
+        "refreshRate": 60
+      },
+      "capabilities": {
+        "inputs": [
+          "HDMI",
+          "RTSP"
+        ],
+        "outputs": [
+          "HDMI"
+        ],
+        "codecs": [
+          "H264"
+        ],
+        "maxResolution": "2560x1440"
+      },
+      "status": {
+        "online": false,
+        "lastSeenAt": "2026-08-29T11:00:00.000Z"
+      },
+      "tags": [
+        "control-room",
+        "secondary"
+      ],
+      "enabled": false,
+      "notes": "Devre disi, yedek olarak duruyor"
+    }
+  ]
+}

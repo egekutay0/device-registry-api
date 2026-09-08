@@ -87,3 +87,13 @@ export async function deleteDevice(req: Request, res: Response): Promise<void> {
 
   res.status(204).end();
 }
+export async function bulkCreateDevices(req: Request, res: Response): Promise<void> {
+  const { devices } = req.body as { devices: CreateDeviceInput[] };
+
+  const created = await deviceService.createManyDevices(devices);
+
+  res.status(201).json({
+    count: created.length,
+    devices: created,
+  });
+}

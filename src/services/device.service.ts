@@ -144,3 +144,42 @@ export async function deleteDevice(id: string): Promise<void> {
     throw new NotFoundError(`Cihaz bulunamadı: ${id}`);
   }
 }
+export async function createManyDevices(
+  inputs: CreateDeviceInput[]
+): Promise<Device[]> {
+  const seenCodes = new Set<string>();
+  const seenSerials = new Set<string>();
+
+  for (const input of inputs) {
+    if (seenCodes.has(input.deviceCode)) {
+      throw new ConflictError(`Gövde içinde tekrarlanan deviceCode: ${input.deviceCode}`);
+    }
+    if (seenSerials.has(input.serialNumber)) {
+      throw new ConflictError(`Gövde içinde tekrarlanan serialNumber: ${input.serialNumber}`);
+    }
+    seenCodes.add(input.deviceCode);
+    seenSerials.add(input.serialNumber);
+  }
+
+  const now = new Date();
+
+  const documents: DeviceDocument[] = inputs.map((input) => ({
+    _id: generateDeviceId(),
+    ...input,
+    createdAt: now,
+    updatedAt: now,
+  }));
+
+  try {
+    await devicesCollection().insertMany(documents, { ordered: true });
+  } catch (error) {
+    if (error instanceof MongoServerError && error.code === 11000) {
+      throw new ConflictError(
+        "Gönderilen cihazlardan biri zaten kayıtlı (deviceCode veya serialNumber çakışması)"
+      );
+    }
+    throw error;
+  }
+
+  return documents.map(toDevice);
+}
