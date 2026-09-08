@@ -62,7 +62,7 @@ export async function replaceDevice(req: Request, res: Response): Promise<void> 
 export async function updateDevice(req: Request, res: Response): Promise<void> {
   const id = req.params.id;
 
-  if (id === undefined) {
+  if (typeof id !== "string") {
     throw new ValidationError("id parametresi eksik");
   }
 
@@ -75,4 +75,15 @@ export async function updateDevice(req: Request, res: Response): Promise<void> {
   const device = await deviceService.updateDevice(id, input);
 
   res.status(200).json(device);
+}
+export async function deleteDevice(req: Request, res: Response): Promise<void> {
+  const id = req.params.id;
+
+  if (typeof id !== "string") {
+    throw new ValidationError("id parametresi eksik");
+  }
+
+  await deviceService.deleteDevice(id);
+
+  res.status(204).end();
 }

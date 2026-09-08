@@ -5,6 +5,7 @@ import {
   getDeviceById,
   replaceDevice,
   updateDevice,
+  deleteDevice,
 } from "../controllers/device.controller.js";
 
 const deviceRouter = Router();
@@ -14,5 +15,6 @@ deviceRouter.get("/", listDevices);
 deviceRouter.get("/:id", getDeviceById);
 deviceRouter.put("/:id", replaceDevice);
 deviceRouter.patch("/:id", updateDevice);
+deviceRouter.delete("/:id", deleteDevice);
 
 export { deviceRouter };

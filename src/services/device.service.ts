@@ -137,3 +137,10 @@ export async function updateDevice(
 
   return toDevice(updated);
 }
+export async function deleteDevice(id: string): Promise<void> {
+  const result = await devicesCollection().deleteOne({ _id: id });
+
+  if (result.deletedCount === 0) {
+    throw new NotFoundError(`Cihaz bulunamadı: ${id}`);
+  }
+}
