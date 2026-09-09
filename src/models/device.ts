@@ -51,6 +51,7 @@ export interface Device {
   manufacturer: string;
   model: string;
   serialNumber: string;
+  firmwareVersion?: string;
   network: DeviceNetwork;
   location: DeviceLocation;
   display: DeviceDisplay;

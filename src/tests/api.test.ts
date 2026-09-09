@@ -3,7 +3,7 @@ import { app } from "../app.js";
 import { closeDatabase, connectToDatabase, getDb } from "../config/database.js";
 import type { CreateDeviceInput } from "../models/device.js";
 
-function buildDevice(suffix: string): CreateDeviceInput {
+function buildDevice(suffix: string, firmwareVersion = "1.4.2"): CreateDeviceInput {
   return {
     deviceCode: `FTW-JEST-${suffix}`,
     name: `Jest Test Device ${suffix}`,
@@ -11,6 +11,8 @@ function buildDevice(suffix: string): CreateDeviceInput {
     manufacturer: "4TheWall",
     model: "Wall Controller",
     serialNumber: `SN-JEST-${suffix}`,
+    firmwareVersion,
+
     network: {
       hostname: `jest-host-${suffix}`,
       ipAddress: "192.168.99.10",
@@ -151,5 +153,17 @@ describe("Device CRUD", () => {
 
     const getResponse = await request(app).get(`/api/v1/devices/${id}`);
     expect(getResponse.status).toBe(404);
+  });
+    it("Test 10 - firmwareVersion filtresi çalışmalı", async () => {
+    await request(app).post("/api/v1/devices").send(buildDevice("008", "9.9.9"));
+    await request(app).post("/api/v1/devices").send(buildDevice("009", "1.0.0"));
+
+    const response = await request(app).get(
+      "/api/v1/devices?firmwareVersion=9.9.9"
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.body.data).toHaveLength(1);
+    expect(response.body.data[0].deviceCode).toBe("FTW-JEST-008");
   });
 });

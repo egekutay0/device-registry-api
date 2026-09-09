@@ -15,7 +15,7 @@ export async function createDevice(req: Request, res: Response): Promise<void> {
 export async function listDevices(req: Request, res: Response): Promise<void> {
   const filters: DeviceFilters = {};
 
-  const { type, online, enabled } = req.query;
+  const { type, online, enabled, firmwareVersion } = req.query;
 
   if (typeof type === "string") {
     if (!(DEVICE_TYPES as readonly string[]).includes(type)) {
@@ -30,6 +30,9 @@ export async function listDevices(req: Request, res: Response): Promise<void> {
 
   if (typeof enabled === "string") {
     filters.enabled = enabled === "true";
+  }
+    if (typeof firmwareVersion === "string") {
+    filters.firmwareVersion = firmwareVersion;
   }
 
   const devices = await deviceService.listDevices(filters);

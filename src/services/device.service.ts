@@ -42,6 +42,7 @@ export interface DeviceFilters {
   type?: DeviceType;
   online?: boolean;
   enabled?: boolean;
+  firmwareVersion?: string;
 }
 
 export async function listDevices(filters: DeviceFilters): Promise<Device[]> {
@@ -57,6 +58,9 @@ export async function listDevices(filters: DeviceFilters): Promise<Device[]> {
 
   if (filters.online !== undefined) {
     query["status.online"] = filters.online;
+  }
+    if (filters.firmwareVersion !== undefined) {
+    query.firmwareVersion = filters.firmwareVersion;
   }
 
   const documents = await devicesCollection().find(query).toArray();
