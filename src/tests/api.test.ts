@@ -70,8 +70,8 @@ describe("Device CRUD", () => {
       .send(buildDevice("001"));
 
     expect(response.status).toBe(201);
-    expect(response.body.id).toBeDefined();
-    expect(response.body.deviceCode).toBe("FTW-JEST-001");
+    expect(response.body.data.id).toBeDefined();
+    expect(response.body.data.deviceCode).toBe("FTW-JEST-001");
   });
 
   it("Test 3 - duplicate deviceCode 409 dönmeli", async () => {
@@ -90,11 +90,11 @@ describe("Device CRUD", () => {
       .send(buildDevice("003"));
 
     const response = await request(app).get(
-      `/api/v1/devices/${created.body.id}`
+      `/api/v1/devices/${created.body.data.id}`
     );
 
     expect(response.status).toBe(200);
-    expect(response.body.deviceCode).toBe("FTW-JEST-003");
+    expect(response.body.data.deviceCode).toBe("FTW-JEST-003");
   });
 
   it("Test 5 - olmayan cihaz GET edilince 404 dönmeli", async () => {
@@ -117,14 +117,14 @@ describe("Device CRUD", () => {
       .send(buildDevice("005"));
 
     const response = await request(app)
-      .patch(`/api/v1/devices/${created.body.id}`)
+      .patch(`/api/v1/devices/${created.body.data.id}`)
       .send({ enabled: false, status: { online: false } });
 
     expect(response.status).toBe(200);
-    expect(response.body.enabled).toBe(false);
-    expect(response.body.status.online).toBe(false);
-    expect(response.body.status.lastSeenAt).not.toBeNull();
-    expect(response.body.name).toBe("Jest Test Device 005");
+    expect(response.body.data.enabled).toBe(false);
+    expect(response.body.data.status.online).toBe(false);
+    expect(response.body.data.status.lastSeenAt).not.toBeNull();
+    expect(response.body.data.name).toBe("Jest Test Device 005");
   });
 
   it("Test 8 - eksik zorunlu alanla PUT reddedilmeli", async () => {
@@ -133,7 +133,7 @@ describe("Device CRUD", () => {
       .send(buildDevice("006"));
 
     const response = await request(app)
-      .put(`/api/v1/devices/${created.body.id}`)
+      .put(`/api/v1/devices/${created.body.data.id}`)
       .send({ name: "sadece isim" });
 
     expect(response.status).toBe(400);
@@ -144,7 +144,7 @@ describe("Device CRUD", () => {
       .post("/api/v1/devices")
       .send(buildDevice("007"));
 
-    const id = created.body.id;
+    const id = created.body.data.id;
 
     const deleteResponse = await request(app).delete(`/api/v1/devices/${id}`);
     expect(deleteResponse.status).toBe(204);

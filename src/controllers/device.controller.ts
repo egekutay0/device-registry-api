@@ -3,13 +3,14 @@ import { DEVICE_TYPES, type CreateDeviceInput, type DeviceType, type UpdateDevic
 import type { DeviceFilters } from "../services/device.service.js";
 import { ValidationError } from "../utils/errors.js";
 import * as deviceService from "../services/device.service.js";
+import { sendSuccess } from "../utils/response.js";
 
 export async function createDevice(req: Request, res: Response): Promise<void> {
   const input = req.body as CreateDeviceInput;
 
   const device = await deviceService.createDevice(input);
 
-  res.status(201).json(device);
+  sendSuccess(res, 201, device);
 }
 export async function listDevices(req: Request, res: Response): Promise<void> {
   const filters: DeviceFilters = {};
@@ -33,7 +34,7 @@ export async function listDevices(req: Request, res: Response): Promise<void> {
 
   const devices = await deviceService.listDevices(filters);
 
-  res.status(200).json(devices);
+  sendSuccess(res, 200, devices, { count: devices.length});
 }
 export async function getDeviceById(req: Request, res: Response): Promise<void> {
   const id = req.params.id;
@@ -44,7 +45,7 @@ export async function getDeviceById(req: Request, res: Response): Promise<void> 
 
   const device = await deviceService.getDeviceById(id);
 
-  res.status(200).json(device);
+  sendSuccess(res, 200, device);
 }
 export async function replaceDevice(req: Request, res: Response): Promise<void> {
   const id = req.params.id;
@@ -57,7 +58,7 @@ export async function replaceDevice(req: Request, res: Response): Promise<void> 
 
   const device = await deviceService.replaceDevice(id, input);
 
-  res.status(200).json(device);
+  sendSuccess(res, 200, device);
 }
 export async function updateDevice(req: Request, res: Response): Promise<void> {
   const id = req.params.id;
@@ -74,7 +75,7 @@ export async function updateDevice(req: Request, res: Response): Promise<void> {
 
   const device = await deviceService.updateDevice(id, input);
 
-  res.status(200).json(device);
+  sendSuccess(res, 200, device);
 }
 export async function deleteDevice(req: Request, res: Response): Promise<void> {
   const id = req.params.id;
@@ -92,8 +93,5 @@ export async function bulkCreateDevices(req: Request, res: Response): Promise<vo
 
   const created = await deviceService.createManyDevices(devices);
 
-  res.status(201).json({
-    count: created.length,
-    devices: created,
-  });
+    sendSuccess(res, 201, created, { count: created.length });
 }

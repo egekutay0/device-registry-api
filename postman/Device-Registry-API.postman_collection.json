@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "1a476753-98ea-4ca9-bdf1-46abed16721a",
+    "_postman_id": "7f3623ca-55ce-42ff-9517-2a713df06ca4",
     "name": "Device Registry API",
     "description": "4TheWall Device Registry API - LAB 1 Postman Collection",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -96,7 +96,7 @@
               "});",
               "",
               "// Olusan cihazin id degerini environment degiskenine aktar",
-              "var device = pm.response.json();",
+              "var device = pm.response.json().data;",
               "pm.environment.set(\"DEVICE_ID\", device.id);"
             ]
           }
@@ -179,7 +179,7 @@
               "  pm.response.to.have.status(200);",
               "});",
               "pm.test(\"dizi donuyor\", function () {",
-              "  pm.expect(pm.response.json()).to.be.an(\"array\");",
+              "  pm.expect(pm.response.json().data).to.be.an(\"array\");",
               "});"
             ]
           }
@@ -259,7 +259,7 @@
               "  pm.response.to.have.status(200);",
               "});",
               "pm.test(\"dogru cihaz geldi\", function () {",
-              "  pm.expect(pm.response.json().id).to.eql(pm.environment.get(\"DEVICE_ID\"));",
+              "  pm.expect(pm.response.json().data.id).to.eql(pm.environment.get(\"DEVICE_ID\"));",
               "});"
             ]
           }
@@ -344,7 +344,7 @@
               "  pm.response.to.have.status(200);",
               "});",
               "pm.test(\"name guncellendi\", function () {",
-              "  pm.expect(pm.response.json().name).to.include(\"PUT ile guncellendi\");",
+              "  pm.expect(pm.response.json().data.name).to.include(\"PUT ile guncellendi\");",
               "});"
             ]
           }
@@ -395,7 +395,7 @@
               "  pm.response.to.have.status(200);",
               "});",
               "pm.test(\"sadece gonderilen alanlar degisti\", function () {",
-              "  var device = pm.response.json();",
+              "  var device = pm.response.json().data;",
               "  pm.expect(device.enabled).to.eql(false);",
               "  pm.expect(device.status.online).to.eql(false);",
               "  pm.expect(device.status.lastSeenAt).to.not.eql(undefined);",
@@ -483,7 +483,7 @@
               "  pm.response.to.have.status(201);",
               "});",
               "pm.test(\"iki cihaz olustu\", function () {",
-              "  pm.expect(pm.response.json().count).to.eql(2);",
+              "  pm.expect(pm.response.json().meta.count).to.eql(2);",
               "});"
             ]
           }
